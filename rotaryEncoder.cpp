@@ -6,25 +6,27 @@
 
 using namespace std;
 
-static int _t1 = 0;
-static int _turning1 = 0;
-static int _t2 = 0;
-static int _turning2 = 0;
-static unsigned long _debounceDelay_ = 50;
+int guardrail = 100;
 
-int i = 0;
-int j = 0;
+int last1 = 0;
+int last2 = 0;
 
 static void callback1()
 {
-    cout << "callback 1 -> " << i << endl;
-    i++;
+    if (millis() - last1 > guardrail)
+    {
+        last1 = millis();
+        cout << "ROTATION 1" << endl;
+    }
 }
 
 static void callback2()
 {
-    cout << "callback 2 -> " << j << endl;
-    j++;
+    if (millis() - last2 > guardrail)
+    {
+        last1 = millis();
+        cout << "ROTATION 2" << endl;
+    }
 }
 
 RotaryEncoder::RotaryEncoder(int dataPin, int clkPin, int pushPin, std::string name)
