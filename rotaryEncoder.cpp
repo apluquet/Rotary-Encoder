@@ -29,19 +29,19 @@ static void callback1()
         int flag = 0;
         while (millis() - start < _maxTime && !clk)
         {
-            clk = digitalRead(pinClk1);
+            clk = digitalRead(_pinClk1);
             flag = 1;
         }
 
         if (clk && flag)
         {
             _counter1--;
-            cout << "ROTATION 1, " << counter1 << endl;
+            cout << "ROTATION 1, " << _counter1 << endl;
         }
         else
         {
             _counter1++;
-            cout << "ROTATION 1, " << counter1 << endl;
+            cout << "ROTATION 1, " << _counter1 << endl;
         }
     }
 }
