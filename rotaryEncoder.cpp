@@ -74,6 +74,11 @@ static void callback2()
     }
 }
 
+static void callbackClic()
+{
+	cout << "clic" << endl;
+}
+
 RotaryEncoder::RotaryEncoder(int dataPin, int clkPin, int pushPin, std::string name)
 {
     static bool once = false;
@@ -106,6 +111,8 @@ void RotaryEncoder::setup()
     {
         int err = 0;
         err = wiringPiISR(dataPin_, INT_EDGE_RISING, callback2);
+        cout << "err CB2 = " << err << endl;
+        err = wiringPiISR(pushPin_, INT_EDGE_RISING, callbackClic);
         cout << "err CB2 = " << err << endl;
         _pinClk2 = clkPin_;
     }
