@@ -14,6 +14,7 @@ static unsigned long _debounceDelay_ = 50;
 
 static void data1_callback()
 {
+    cout << "coucou0" << endl;
 	if (!_turning1)
 	{	
 		_turning1 = -1;
@@ -33,6 +34,7 @@ static void data1_callback()
 
 static void clock1_callback()
 {
+    cout << "coucou1" << endl;
 	if (!_turning1)
 	{	
 		_turning1 = 1;
@@ -51,6 +53,7 @@ static void clock1_callback()
 
 static void data2_callback()
 {
+    cout << "coucou2" << endl;
 	if (!_turning2)
 	{	
 		_turning2 = -1;
@@ -69,6 +72,7 @@ static void data2_callback()
 
 static void clock2_callback()
 {
+    cout << "coucou3" << endl;
 	if (!_turning2)
 	{	
 		_turning2 = 1;
@@ -122,6 +126,8 @@ void RotaryEncoder::setup()
     	err = wiringPiISR(clkPin_,INT_EDGE_RISING,clock2_callback); 
     	cout << err << endl;
     }
+
+    cout << "hello" << endl;
 }
 
 int RotaryEncoder::debounce()
