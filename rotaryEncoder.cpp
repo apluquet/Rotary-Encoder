@@ -26,15 +26,22 @@ static void callback1()
 
         int clk = digitalRead(pinClk1);
         int start = millis();
+        int flag = 0;
         while (millis() - start < maxTime && !clk)
         {
             clk = digitalRead(pinClk1);
+            flag = 1;
         }
 
-        if (clk)
+        if (clk && flag)
         {
-            cout << "ROTATION 1, " << counter1 << endl;
             counter1++;
+            cout << "ROTATION 1, " << counter1 << endl;
+        }
+        else
+        {
+            counter1--;
+            cout << "ROTATION 1, " << counter1 << endl;
         }
     }
 }
@@ -47,15 +54,22 @@ static void callback2()
 
         int clk = digitalRead(pinClk2);
         int start = millis();
+        int flag = 0;
         while (millis() - start < maxTime && !clk)
         {
             clk = digitalRead(pinClk2);
+            flag = 1;
         }
 
-        if (clk)
+        if (clk && flag)
         {
-            cout << "ROTATION 2, " << counter2 << endl;
             counter2++;
+            cout << "ROTATION 2, " << counter2 << endl;
+        }
+        else
+        {
+            counter2--;
+            cout << "ROTATION 2, " << counter2 << endl;
         }
     }
 }
