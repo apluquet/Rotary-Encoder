@@ -7,6 +7,7 @@
 using namespace std;
 
 int guardrail = 100;
+int maxTime = 50;
 
 int last1 = 0;
 int last2 = 0;
@@ -14,13 +15,27 @@ int last2 = 0;
 int counter1 = 0;
 int counter2 = 0;
 
+int pinClk1 = 0;
+int pinClk2 = 0;
+
 static void callback1()
 {
     if (millis() - last1 > guardrail)
     {
         last1 = millis();
-        cout << "ROTATION 1, " << counter1 << endl;
-        counter1 ++;
+
+        int clk = digitalRead(pinClk1);
+        int start = millis();
+        while (millis() - start < maxTime && !clk)
+        {
+            clk = digitalRead(pinClk1);
+        }
+
+        if (clk)
+        {
+            cout << "ROTATION 1, " << counter1 << endl;
+            counter1++;
+        }
     }
 }
 
@@ -29,8 +44,19 @@ static void callback2()
     if (millis() - last2 > guardrail)
     {
         last2 = millis();
-        cout << "ROTATION 2, " << counter2 << endl;
-        counter2 ++;
+
+        int clk = digitalRead(pinClk2);
+        int start = millis();
+        while (millis() - start < maxTime && !clk)
+        {
+            clk = digitalRead(pinClk2);
+        }
+
+        if (clk)
+        {
+            cout << "ROTATION 2, " << counter2 << endl;
+            counter2++;
+        }
     }
 }
 
@@ -60,12 +86,14 @@ void RotaryEncoder::setup()
         int err = 0;
         err = wiringPiISR(dataPin_, INT_EDGE_RISING, callback1);
         cout << "err CB1 = " << err << endl;
+        pinClk1 = clkPin_;
     }
     else if (name_ == "2")
     {
         int err = 0;
         err = wiringPiISR(dataPin_, INT_EDGE_RISING, callback2);
         cout << "err CB2 = " << err << endl;
+        pinClk2 = clkPin_;
     }
 }
 /*
