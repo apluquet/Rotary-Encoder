@@ -6,28 +6,28 @@
 
 using namespace std;
 
-int guardrail = 100;
-int maxTime = 50;
+int _guardrail = 100;
+int _maxTime = 50;
 
-int last1 = 0;
-int last2 = 0;
+int _last1 = 0;
+int _last2 = 0;
 
-int counter1 = 0;
-int counter2 = 0;
+int _counter1 = 0;
+int _counter2 = 0;
 
-int pinClk1 = 0;
-int pinClk2 = 0;
+int _pinClk1 = 0;
+int _pinClk2 = 0;
 
 static void callback1()
 {
-    if (millis() - last1 > guardrail)
+    if (millis() - _last1 > _guardrail)
     {
-        last1 = millis();
+        _last1 = millis();
 
-        int clk = digitalRead(pinClk1);
+        int clk = digitalRead(_pinClk1);
         int start = millis();
         int flag = 0;
-        while (millis() - start < maxTime && !clk)
+        while (millis() - start < _maxTime && !clk)
         {
             clk = digitalRead(pinClk1);
             flag = 1;
@@ -35,12 +35,12 @@ static void callback1()
 
         if (clk && flag)
         {
-            counter1++;
+            _counter1--;
             cout << "ROTATION 1, " << counter1 << endl;
         }
         else
         {
-            counter1--;
+            _counter1++;
             cout << "ROTATION 1, " << counter1 << endl;
         }
     }
@@ -48,28 +48,28 @@ static void callback1()
 
 static void callback2()
 {
-    if (millis() - last2 > guardrail)
+    if (millis() - _last2 > _guardrail)
     {
-        last2 = millis();
+        _last2 = millis();
 
-        int clk = digitalRead(pinClk2);
+        int clk = digitalRead(_pinClk2);
         int start = millis();
         int flag = 0;
-        while (millis() - start < maxTime && !clk)
+        while (millis() - start < _maxTime && !clk)
         {
-            clk = digitalRead(pinClk2);
+            clk = digitalRead(_pinClk2);
             flag = 1;
         }
 
-        if (clk && flag)
+        if (clk && flag == 1)
         {
-            counter2++;
-            cout << "ROTATION 2, " << counter2 << endl;
+            _counter2--;
+            cout << "ROTATION 2, " << _counter2 << endl;
         }
-        else
+        else if (clk && flag == 2)
         {
-            counter2--;
-            cout << "ROTATION 2, " << counter2 << endl;
+            _counter2++;
+            cout << "ROTATION 2, " << _counter2 << endl;
         }
     }
 }
@@ -100,46 +100,17 @@ void RotaryEncoder::setup()
         int err = 0;
         err = wiringPiISR(dataPin_, INT_EDGE_RISING, callback1);
         cout << "err CB1 = " << err << endl;
-        pinClk1 = clkPin_;
+        _pinClk1 = clkPin_;
     }
     else if (name_ == "2")
     {
         int err = 0;
         err = wiringPiISR(dataPin_, INT_EDGE_RISING, callback2);
         cout << "err CB2 = " << err << endl;
-        pinClk2 = clkPin_;
+        _pinClk2 = clkPin_;
     }
 }
-/*
-int RotaryEncoder::debounce()
-{
-    int ret = 0;
-    int reading = digitalRead(pushPin_);
 
-    if (reading != lastPushState_)
-        lastDebounceTime_ = millis();
-
-    if ((millis() - lastDebounceTime_) >= debounceDelay_)
-    {
-        if (reading != currentPushState_)
-        {
-            currentPushState_ = reading;
-            if (reading)
-            {
-                cout << "*clic " << name_ << " *" << endl;
-                ret = 2;
-            }
-            else
-            {
-                // cout << "*clac " << name_ <<  " *" << endl;
-                ret = 1;
-            }
-        }
-    }
-    lastPushState_ = reading;
-    return ret;
-}
-*/
 int main()
 {
     wiringPiSetupGpio();
