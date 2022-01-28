@@ -19,7 +19,7 @@ static void callback1()
     if (millis() - last1 > guardrail)
     {
         last1 = millis();
-        cout << "ROTATION 1" << endl;
+        cout << "ROTATION 1, " << counter1 << endl;
         counter1 ++;
     }
 }
@@ -29,7 +29,7 @@ static void callback2()
     if (millis() - last2 > guardrail)
     {
         last2 = millis();
-        cout << "ROTATION 2" << endl;
+        cout << "ROTATION 2, " << counter2 << endl;
         counter2 ++;
     }
 }
