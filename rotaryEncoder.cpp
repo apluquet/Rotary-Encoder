@@ -11,12 +11,16 @@ int guardrail = 100;
 int last1 = 0;
 int last2 = 0;
 
+int counter1 = 0;
+int counter2 = 0;
+
 static void callback1()
 {
     if (millis() - last1 > guardrail)
     {
         last1 = millis();
         cout << "ROTATION 1" << endl;
+        counter1 ++;
     }
 }
 
@@ -24,8 +28,9 @@ static void callback2()
 {
     if (millis() - last2 > guardrail)
     {
-        last1 = millis();
+        last2 = millis();
         cout << "ROTATION 2" << endl;
+        counter2 ++;
     }
 }
 
@@ -107,8 +112,6 @@ int main()
         delay(50);
         if (k > 1000)
         {
-            j = 0;
-            i = 0;
         }
     }
 }
