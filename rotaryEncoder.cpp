@@ -182,12 +182,11 @@ int main()
     RotaryEncoder A = RotaryEncoder(13, 11, 15, "A");
     RotaryEncoder B = RotaryEncoder(22, 31, 7, "B");
 
-    A.setup();
-    B.setup();
-
     cout << "You can start" << endl;
 
     while (1)
-    {}
+    {
+	    delay(50);
+    }
 }
 
